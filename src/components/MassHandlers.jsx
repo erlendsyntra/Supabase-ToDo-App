@@ -1,6 +1,6 @@
 const MassHandlers = ({ todos, handleDeleteAll, handleToggleAll }) => {
   return (
-    <div className="flex">
+    <div className="flex px-3 text-green-dark">
       {todos.length > 1 && (
         <div className="flex-auto underline" onClick={() => handleDeleteAll()}>
           Delete All

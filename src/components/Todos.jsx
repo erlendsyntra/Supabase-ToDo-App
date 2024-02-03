@@ -4,7 +4,7 @@ const Todos = ({ todos, handleDeleteTodo, handleUpdateTodo }) => {
   return (
     <>
       {todos.length > 0 && (
-        <ul>
+        <ul className="px-3">
           {todos.map(({ id }, i, todos) => (
             <Todo
               key={id}

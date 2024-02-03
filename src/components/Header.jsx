@@ -13,10 +13,8 @@ const Header = () => {
     navigate("/");
   };
   return (
-    <div className="flex gap-5">
-      <h1 className="text-green-600 text-3xl font-extrabold flex-auto">
-        TODOAPP
-      </h1>
+    <div className="flex gap-5 text-2xl">
+      <h1 className="text-green-dark font-extrabold flex-auto">TODOAPP</h1>
       <Sun className="" />
       <Map />
       <Profile onClick={signOut} />
