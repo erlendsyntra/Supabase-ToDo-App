@@ -1,39 +1,77 @@
-import { createClient } from "@supabase/supabase-js";
 import { useContext, useEffect, useState } from "react";
 import { supabaseContext } from "../data/SupabaseProvider";
-
-// const supabase = createClient(
-//   import.meta.env.VITE_SUPABASE_URL,
-//   import.meta.env.VITE_SUPABASE_KEY
-// );
+import { useAuth } from "../hooks";
+import Todos from "../components/Todos";
+import {
+  deleteTodo,
+  selectTodos,
+  insertTodo,
+  updateTodo,
+  deleteAllTodos,
+  updateAllTodos,
+} from "../functions/queries";
+import AddTodoForm from "../components/AddTodoForm";
+import MassHandlers from "../components/MassHandlers";
 
 const Home = () => {
-  const [todos, setTodos] = useState([]);
   const supabase = useContext(supabaseContext);
-  const selectTodos = async () => {
-    const { data } = await supabase
-      .from("todos")
-      .select()
-      .order("created_at", { ascending: false });
+  const [user, signOut] = useAuth(supabase);
+  const [todos, setTodos] = useState([]);
+
+  const handleSelectTodos = async () => {
+    const data = await selectTodos(supabase);
     setTodos(data);
   };
 
-  const getUser = async () => {
-    const data = await supabase.auth.getUser();
-    console.log(data);
+  const handleInsertTodo = async (task) => {
+    await insertTodo(supabase, task, user.id);
+    handleSelectTodos(supabase);
   };
+
+  const handleUpdateTodo = async (id, checked) => {
+    await updateTodo(supabase, id, checked);
+    handleSelectTodos(supabase);
+  };
+
+  const handleDeleteTodo = async (id) => {
+    await deleteTodo(supabase, id);
+    handleSelectTodos(supabase);
+  };
+
+  const handleDeleteAll = async () => {
+    await deleteAllTodos(supabase, user.id);
+    handleSelectTodos(supabase);
+  };
+
+  const handleToggleAll = async (checked) => {
+    await updateAllTodos(supabase, checked, user.id);
+    handleSelectTodos(supabase);
+  };
+
   useEffect(() => {
-    selectTodos();
-    getUser();
-  }, []);
+    if (user.id) {
+      handleSelectTodos();
+    }
+  }, [user]);
   return (
     <>
-      <h1>Home</h1>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.task}</li>
-        ))}
-      </ul>
+      <AddTodoForm
+        user_id={user.id}
+        supabase={supabase}
+        handleInsertTodo={handleInsertTodo}
+      />
+      <Todos
+        todos={todos}
+        handleDeleteTodo={handleDeleteTodo}
+        handleUpdateTodo={handleUpdateTodo}
+      />
+      {todos.length > 1 && (
+        <MassHandlers
+          todos={todos}
+          handleDeleteAll={handleDeleteAll}
+          handleToggleAll={handleToggleAll}
+        />
+      )}
     </>
   );
 };

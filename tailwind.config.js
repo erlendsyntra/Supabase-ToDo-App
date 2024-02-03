@@ -2,7 +2,11 @@
 export default {
   content: ["index.html", "./src/**/*.jsx"],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        107: "26.875rem", //max width
+      },
+    },
+    plugins: ["prettier-plugin-tailwindcss"],
   },
-  plugins: ["prettier-plugin-tailwindcss"],
 };
