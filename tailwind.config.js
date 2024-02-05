@@ -10,6 +10,9 @@ export default {
       spacing: {
         107: "26.875rem", //max width
       },
+      maxWidth: {
+        "80%": "80%",
+      },
     },
     plugins: ["prettier-plugin-tailwindcss"],
   },

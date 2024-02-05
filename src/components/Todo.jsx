@@ -11,27 +11,30 @@ const Todo = ({
   handleUpdateTodo,
 }) => {
   return (
-    <li className="text-l p-3 border-2 flex gap-2 bg-white mb-2 rounded-md shadow-sm">
+    <li className="text-l p-3 border-2 flex bg-white mb-2 rounded-md shadow-sm items-center">
       <div
-        className={`flex-auto ${checked ? "line-through decoration-green-dark" : ""}`}
+        className={`flex-auto ${checked ? "line-through decoration-green-dark" : ""} max-w-90%`}
       >
         {task}
       </div>
-      <Trash
-        className={`${checked ? "text-gray-400" : "text-red-500"}`}
-        onClick={() => handleDeleteTodo(id)}
-      />
-      {checked ? (
-        <Checked
-          className="text-green-dark "
-          onClick={() => handleUpdateTodo(id, !checked)}
+      <div className="flex gap-2">
+        <Trash
+          className={`${checked ? "text-gray-400" : "text-red-500"}`}
+          onClick={() => handleDeleteTodo(id)}
         />
-      ) : (
-        <Unchecked
-          className="text-green-dark"
-          onClick={() => handleUpdateTodo(id, !checked)}
-        />
-      )}
+        <div class="bg-neutral-200 w-[1px]"></div>
+        {checked ? (
+          <Checked
+            className="text-green-dark"
+            onClick={() => handleUpdateTodo(id, !checked)}
+          />
+        ) : (
+          <Unchecked
+            className="text-green-dark"
+            onClick={() => handleUpdateTodo(id, !checked)}
+          />
+        )}
+      </div>
     </li>
   );
 };
