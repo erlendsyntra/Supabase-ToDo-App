@@ -14,10 +14,16 @@ const Header = () => {
   };
   return (
     <div className="flex gap-5 text-2xl">
-      <h1 className="text-green-dark font-extrabold flex-auto">TODOAPP</h1>
+      <h1
+        className="text-green-dark font-extrabold flex-auto"
+        onClick={() => navigate("/home")}
+      >
+        TODOAPP
+      </h1>
       <Sun className="" />
       <Map />
-      <Profile onClick={signOut} />
+      {/* <Profile onClick={signOut} /> */}
+      <Profile onClick={() => navigate("/profile")} />
       {/* <button onClick={signOut}></button> */}
     </div>
   );

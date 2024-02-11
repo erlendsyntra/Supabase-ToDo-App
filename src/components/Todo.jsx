@@ -19,18 +19,18 @@ const Todo = ({
       </div>
       <div className="flex gap-2">
         <Trash
-          className={`${checked ? "text-gray-400" : "text-red-500"}`}
+          className={`${checked ? "text-gray-400" : "text-red-500"} text-2xl`}
           onClick={() => handleDeleteTodo(id)}
         />
-        <div class="bg-neutral-200 w-[1px]"></div>
+        <div className="bg-neutral-200 w-[1px]"></div>
         {checked ? (
           <Checked
-            className="text-green-dark"
+            className="text-green-dark text-2xl"
             onClick={() => handleUpdateTodo(id, !checked)}
           />
         ) : (
           <Unchecked
-            className="text-green-dark"
+            className="text-green-dark text-2xl"
             onClick={() => handleUpdateTodo(id, !checked)}
           />
         )}
