@@ -13,8 +13,8 @@ export const selectTodos = async (supabase, filter) => {
   return data;
 };
 
-export const insertTodo = async (supabase, task, user_id) => {
-  return await supabase.from("todos").insert({ task, user_id });
+export const insertTodo = async (supabase, task, user_id, imagePath) => {
+  return await supabase.from("todos").insert({ task, user_id, imagePath });
 };
 
 export const updateTodo = async (supabase, id, checked) => {

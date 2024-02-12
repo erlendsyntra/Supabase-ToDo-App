@@ -119,7 +119,7 @@ const Profile = () => {
         <div className="mt-2">
           {imagePath && (
             <img
-              src={`${import.meta.env.VITE_SUPABASE_STORAGE_BASE_URL}${imagePath}`}
+              src={`${import.meta.env.VITE_SUPABASE_STORAGE_PROFILE_BASE_URL}${imagePath}`}
               alt=""
               className="object-cover object-center h-107 w-96"
             />

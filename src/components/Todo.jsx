@@ -1,17 +1,20 @@
 import { FaRegTrashAlt as Trash } from "react-icons/fa";
 import { FaCheckCircle as Checked } from "react-icons/fa";
 import { FaRegCheckCircle as Unchecked } from "react-icons/fa";
+import { IoCameraOutline as Camera } from "react-icons/io5";
 
 const Todo = ({
   id,
   task,
   checked,
   created_at,
+  imagePath,
   handleDeleteTodo,
   handleUpdateTodo,
 }) => {
   return (
     <li className="text-l p-3 border-2 flex bg-white mb-2 rounded-md shadow-sm items-center">
+      {imagePath ? <Camera className="mr-1" /> : ""}
       <div
         className={`flex-auto ${checked ? "line-through decoration-green-dark" : ""} max-w-90%`}
       >

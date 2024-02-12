@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { useContext, useEffect, useState } from "react";
 import { supabaseContext } from "../data/SupabaseProvider";
 import { useAuth } from "../hooks";
@@ -9,16 +10,20 @@ import {
   updateTodo,
   deleteAllTodos,
   updateAllTodos,
+  uploadPicture,
 } from "../functions/queries";
 import AddTodoForm from "../components/AddTodoForm";
 import MassHandlers from "../components/MassHandlers";
 import Switch from "react-switch";
+import { PiDotsThreeFill as Dots } from "react-icons/pi";
 
 const Home = () => {
   const supabase = useContext(supabaseContext);
   const [user, signOut] = useAuth(supabase);
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState(false);
+  const [todoPic, setTodoPic] = useState(null);
+  const [todoPicLabel, setTodoPicLabel] = useState("");
 
   const handleSelectTodos = async () => {
     const data = await selectTodos(supabase, filter);
@@ -26,7 +31,10 @@ const Home = () => {
   };
 
   const handleInsertTodo = async (task) => {
-    await insertTodo(supabase, task, user.id);
+    const path = await handlePictureUpload();
+    await insertTodo(supabase, task, user.id, path);
+    setTodoPic(null);
+    setTodoPicLabel("");
     handleSelectTodos(supabase);
   };
 
@@ -49,6 +57,21 @@ const Home = () => {
     await updateAllTodos(supabase, checked, user.id);
     handleSelectTodos(supabase);
   };
+
+  const handleSelectTodoPic = (e) => {
+    const fileName = e.target.files[0].name;
+    setTodoPic(e.target.files[0]);
+    setTodoPicLabel(fileName.substring(0, 20));
+    console.log(e.target.files[0]);
+  };
+
+  const handlePictureUpload = async () => {
+    const ext = todoPic.name.split(".").reverse()[0];
+    const path = user.id + "/" + uuidv4() + "." + ext;
+    const data = await uploadPicture(supabase, "todoPics", path, todoPic);
+    return data.path;
+  };
+
   useEffect(() => {
     handleSelectTodos();
   }, [filter]);
@@ -77,6 +100,21 @@ const Home = () => {
           user_id={user.id}
           supabase={supabase}
           handleInsertTodo={handleInsertTodo}
+        />
+        <label
+          htmlFor="file-upload"
+          className="flex cursor-pointer mt-3 items-center"
+        >
+          <p className="bg-green-light w-32 h-5 rounded-md px-1 py-0.5 text-xs text-white">
+            {todoPicLabel}
+          </p>
+          <Dots className="text-2xl" />
+        </label>
+        <input
+          id="file-upload"
+          type="file"
+          className="hidden"
+          onChange={handleSelectTodoPic}
         />
       </div>
       <Todos
