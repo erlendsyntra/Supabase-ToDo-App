@@ -1,10 +1,15 @@
 import { supabase } from "@supabase/auth-ui-shared";
 
-export const selectTodos = async (supabase) => {
-  const { data } = await supabase
+export const selectTodos = async (supabase, filter) => {
+  let query = supabase
     .from("todos")
     .select()
     .order("created_at", { ascending: false });
+  if (filter) {
+    query = query.eq("checked", false);
+  }
+
+  const { data } = await query;
   return data;
 };
 

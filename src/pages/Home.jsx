@@ -12,14 +12,16 @@ import {
 } from "../functions/queries";
 import AddTodoForm from "../components/AddTodoForm";
 import MassHandlers from "../components/MassHandlers";
+import Switch from "react-switch";
 
 const Home = () => {
   const supabase = useContext(supabaseContext);
   const [user, signOut] = useAuth(supabase);
   const [todos, setTodos] = useState([]);
+  const [filter, setFilter] = useState(false);
 
   const handleSelectTodos = async () => {
-    const data = await selectTodos(supabase);
+    const data = await selectTodos(supabase, filter);
     setTodos(data);
   };
 
@@ -47,7 +49,9 @@ const Home = () => {
     await updateAllTodos(supabase, checked, user.id);
     handleSelectTodos(supabase);
   };
-
+  useEffect(() => {
+    handleSelectTodos();
+  }, [filter]);
   useEffect(() => {
     if (user.id) {
       handleSelectTodos();
@@ -55,13 +59,29 @@ const Home = () => {
   }, [user]);
   return (
     <>
-      <AddTodoForm
-        user_id={user.id}
-        supabase={supabase}
-        handleInsertTodo={handleInsertTodo}
-      />
+      <div className="rounded-lg bg-green-dark px-2 py-3 relative mb-3">
+        <label htmlFor="filter-switch">
+          <span className="text-white mr-2 align-top">Hide completed</span>
+          <Switch
+            id="filter-switch"
+            checked={filter}
+            onChange={() => setFilter(!filter)}
+            handleDiameter={20}
+            height={20}
+            width={48}
+            onColor="#65c4ae"
+            className=""
+          />
+        </label>
+        <AddTodoForm
+          user_id={user.id}
+          supabase={supabase}
+          handleInsertTodo={handleInsertTodo}
+        />
+      </div>
       <Todos
         todos={todos}
+        filter={filter}
         handleDeleteTodo={handleDeleteTodo}
         handleUpdateTodo={handleUpdateTodo}
       />
