@@ -16,6 +16,8 @@ import AddTodoForm from "../components/AddTodoForm";
 import MassHandlers from "../components/MassHandlers";
 import Switch from "react-switch";
 import { PiDotsThreeFill as Dots } from "react-icons/pi";
+import { PiMapPinLineFill as Marker } from "react-icons/pi";
+import TodoFormExtras from "../components/TodoFormExtras";
 
 const Home = () => {
   const supabase = useContext(supabaseContext);
@@ -24,6 +26,8 @@ const Home = () => {
   const [filter, setFilter] = useState(false);
   const [todoPic, setTodoPic] = useState(null);
   const [todoPicLabel, setTodoPicLabel] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
 
   const handleSelectTodos = async () => {
     const data = await selectTodos(supabase, filter);
@@ -31,10 +35,19 @@ const Home = () => {
   };
 
   const handleInsertTodo = async (task) => {
-    const path = await handlePictureUpload();
-    await insertTodo(supabase, task, user.id, path);
+    const path = todoPic ? await handlePictureUpload() : "";
+    await insertTodo(
+      supabase,
+      task,
+      user.id,
+      path,
+      longitude ? longitude : null,
+      latitude ? latitude : null
+    );
     setTodoPic(null);
     setTodoPicLabel("");
+    setLongitude("");
+    setLatitude("");
     handleSelectTodos(supabase);
   };
 
@@ -62,7 +75,6 @@ const Home = () => {
     const fileName = e.target.files[0].name;
     setTodoPic(e.target.files[0]);
     setTodoPicLabel(fileName.substring(0, 20));
-    console.log(e.target.files[0]);
   };
 
   const handlePictureUpload = async () => {
@@ -101,20 +113,13 @@ const Home = () => {
           supabase={supabase}
           handleInsertTodo={handleInsertTodo}
         />
-        <label
-          htmlFor="file-upload"
-          className="flex cursor-pointer mt-3 items-center"
-        >
-          <p className="bg-green-light w-32 h-5 rounded-md px-1 py-0.5 text-xs text-white">
-            {todoPicLabel}
-          </p>
-          <Dots className="text-2xl" />
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          className="hidden"
-          onChange={handleSelectTodoPic}
+        <TodoFormExtras
+          longitude={longitude}
+          setLongitude={setLongitude}
+          latitude={latitude}
+          setLatitude={setLatitude}
+          todoPicLabel={todoPicLabel}
+          handleSelectTodoPic={handleSelectTodoPic}
         />
       </div>
       <Todos
