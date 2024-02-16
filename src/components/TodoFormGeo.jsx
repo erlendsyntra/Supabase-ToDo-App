@@ -6,7 +6,7 @@ const TodoFormGeo = ({ longitude, setLongitude, latitude, setLatitude }) => {
       <input
         id="longitude"
         type="text"
-        className="bg-green-light w-24 h-5 rounded-md px-1 py-0.5 text-xs text-white placeholder-white outline-none"
+        className="bg-green-light w-1/4 h-5 rounded-md px-1 py-0.5 text-xs text-white placeholder-white outline-none"
         value={longitude}
         placeholder="longitude"
         maxLength={12}
@@ -15,7 +15,7 @@ const TodoFormGeo = ({ longitude, setLongitude, latitude, setLatitude }) => {
       <input
         id="latitude"
         type="text"
-        className="bg-green-light w-24 h-5 rounded-md px-1 py-0.5 text-xs text-white placeholder-white outline-none"
+        className="bg-green-light w-1/4 h-5 rounded-md px-1 py-0.5 text-xs text-white placeholder-white outline-none"
         value={latitude}
         placeholder="latitude"
         maxLength={12}

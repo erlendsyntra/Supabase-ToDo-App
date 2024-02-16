@@ -3,20 +3,15 @@ import { supabaseContext } from "../data/SupabaseProvider";
 import { useNavigate } from "react-router-dom";
 import { LuSun as Sun } from "react-icons/lu";
 import { GrMapLocation as Map } from "react-icons/gr";
-import { CgProfile as Profile } from "react-icons/cg";
+
 import { toggleDarkMode } from "../functions/helpers";
+import Avatar from "./Avatar";
 
 const Header = () => {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("darkmode") ?? false
   );
-  const supabase = useContext(supabaseContext);
   const navigate = useNavigate();
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
-  };
-  console.log("dark: ", isDark);
 
   useEffect(() => {
     localStorage.setItem("darkmode", isDark);
@@ -31,13 +26,8 @@ const Header = () => {
         TODOAPP
       </h1>
       <Sun className="dark:text-white" onClick={() => setIsDark(!isDark)} />
-      <Map className="dark:text-white" />
-      {/* <Profile onClick={signOut} /> */}
-      <Profile
-        className="dark:text-white"
-        onClick={() => navigate("/profile")}
-      />
-      {/* <button onClick={signOut}></button> */}
+      <Map className="dark:text-white" onClick={() => navigate("/map")} />
+      <Avatar onClick={() => navigate("/profile")} />
     </div>
   );
 };
