@@ -18,8 +18,14 @@ const Todo = ({
   const url = `<img src=${import.meta.env.VITE_SUPABASE_STORAGE_TODO_BASE_URL}${imagePath} width=100px />`;
   return (
     <li className="text-l p-3 border-2 flex bg-white mb-2 rounded-md shadow-sm items-center">
-      {imagePath || imagePath === "" ? <Camera className="mr-1" /> : ""}
-      {longitude && latitude ? <Marker className="mr-1" /> : ""}
+      <div className="flex">
+        {imagePath || imagePath === "" ? (
+          <Camera className="mr-1 text-xl" />
+        ) : (
+          ""
+        )}
+        {longitude && latitude ? <Marker className="mr-1 text-xl" /> : ""}
+      </div>
       <div
         className={`flex-auto ${checked ? "line-through decoration-green-dark" : ""} max-w-90%`}
       >

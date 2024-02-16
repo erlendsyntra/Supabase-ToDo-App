@@ -1,6 +1,28 @@
+import { useEffect } from "react";
 import { PiMapPinLineFill as Marker } from "react-icons/pi";
 
 const TodoFormGeo = ({ longitude, setLongitude, latitude, setLatitude }) => {
+  const handleLocation = () => {
+    if (navigator.geolocation) {
+      console.log("in geo");
+      navigator.geolocation.getCurrentPosition(
+        successCallback,
+        failureCallback
+      );
+    }
+  };
+
+  const successCallback = (position) => {
+    setLongitude(position.coords.longitude);
+    setLatitude(position.coords.latitude);
+    console.log("both: ", longitude, latitude);
+  };
+  const failureCallback = () => {
+    console.error("error");
+  };
+
+  useEffect(() => handleLocation(), []);
+
   return (
     <>
       <input

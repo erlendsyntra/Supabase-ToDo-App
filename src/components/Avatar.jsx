@@ -27,7 +27,7 @@ const Avatar = () => {
 
   return (
     <img
-      className="rounded-full size-6 ring-2 ring-green-light ring-offset-2 hover:"
+      className="rounded-full size-6 ring-2 ring-green-light ring-offset-2 object-cover"
       src={imagePath}
       alt=""
       onClick={() => navigate("/profile")}
